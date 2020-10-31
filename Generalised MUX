@@ -39,7 +39,7 @@
                       top: Top
                })}
                
-               function CreateInputs(inputs, height){
+               function CreateVIZObjects(inputs, height){
                  outputLine = CreateLine([lineWidth+MUXwidth, MUXheight / 2, 2 * lineWidth+MUXwidth, MUXheight/ 2],"blue")
                  let i = 1;
                  const gap = height/(inputs-1)
@@ -67,7 +67,7 @@
                  }}
                  
                }
-               CreateInputs(MUXInputs,MUXheight-40)
+               CreateVIZObjects(MUXInputs,MUXheight-40)
                
                let box = new fabric.Rect({
                    fill: "red",
