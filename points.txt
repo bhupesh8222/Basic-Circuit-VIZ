@@ -4,3 +4,6 @@
 crt +f
 inside func ther's problem in signal referencing
 http://manoj.makerchip.com/sandbox/0NkfNhR4Y/0k5hOjn#
+4. It is very hard to find the syntax error
+
+picorv
