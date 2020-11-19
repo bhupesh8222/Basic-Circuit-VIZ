@@ -1,0 +1,111 @@
+\m4_TLV_version 1d: tl-x.org
+\SV
+
+   // =========================================
+   // Welcome!  Try the tutorials via the menu.
+   // =========================================
+
+   // Default Makerchip TL-Verilog Code Template
+   
+   // Macro providing required top-level module definition, random
+   // stimulus support, and Verilator config.
+   m4_makerchip_module   // (Expanded in Nav-TLV pane.)
+\TLV
+   //$reset = *reset;
+   
+   m4_define_hier(['M4_IN'], 4, 0)
+   
+   |pipe
+      @0
+         m4_rand($sel_enc, M4_IN_INDEX_MAX, 0)
+         /M4_IN_HIER
+            //$in = ...;
+            $sel = |pipe$sel[#in];
+         $in_vect[M4_IN_MAX:0] = /in[*]$in;
+         $sel[M4_IN_MAX:0] = M4_IN_CNT'b1 << $sel_enc;
+         $out = /in[$sel_enc]$in;
+         /M4_IN_HIER
+            \viz_alpha
+               renderEach() {
+               }
+         \viz_alpha
+            renderEach(){
+               debugger
+               const MUXInputs = M4_IN_CNT //enter the mux size
+               const MUXname = MUXInputs.toString().concat(" X 1 MUX")
+               let inputLines=[]
+               let selectLine=[]
+               let outputLine
+               const MUXheight = 360
+               const MUXwidth = 280 // 20 for gap
+               const lineWidth = 200
+               
+               function CreateLine(position, myColor){
+                return new fabric.Line(position, {
+                 stroke: myColor,
+                 strokeWidth: 5, 
+                 evented: false,
+               })}
+               
+               function CreateGroup(itemsToGroup, Left, Top){
+                return new fabric.Group(itemsToGroup, {
+                      left: Left,
+                      top: Top
+               })}
+               
+               //function CreateVIZObjects(inputs, height){
+                 let inputs = MUXInputs
+                 let height = MUXheight-40
+                 outputLine = CreateLine([lineWidth+MUXwidth, MUXheight / 2, 2 * lineWidth+MUXwidth, MUXheight/ 2], (('$out'.asInt() >> i) & 1) ? "red" : "green")
+                 i = 1;
+                 const gap = height/(inputs-1)
+                 let position = 20
+                 
+                 //create inputs
+                 for (i=1; i<=inputs; i=i+1){
+                    inputLines.push(CreateLine([0, position, lineWidth, position], (('$sel'.asInt() >> i) & 1) ? "red" : "green"))
+                    //inputLines.push(CreateLine([0, position, lineWidth, position], '/in[function(){console.log(`i: ${i}`); return i;}()]$in' ? "red" : "green"))
+                    position = position + gap
+                 }
+                 //createSelect line
+                 //if (inputs==2){
+                 //  selectLine.push(CreateLine([lineWidth+MUXwidth/ 2, MUXheight, lineWidth+MUXwidth/ 2, MUXheight+lineWidth],"green"))
+                 //}
+                 //
+                 //else{
+                  let selectlines = MUXInputs //Math.log(MUXInputs) / Math.log(2)
+                  let startingPoint = lineWidth + 20
+                  i = 1
+                  const margin = (MUXwidth-40)/(selectlines-1)
+                  //create selectLines
+                  for (i=1; i<=selectlines; i=i+1){
+                    selectLine.push(CreateLine([startingPoint, MUXheight, startingPoint, MUXheight+lineWidth], (('$in_vect'.asInt() >> i) & 1) ? "red" : "green"))
+                    startingPoint = startingPoint + margin
+                 //}
+                 }
+                 
+               //}
+               //CreateVIZObjects(MUXInputs,MUXheight-40)
+               
+               let box = new fabric.Rect({
+                   fill: "red",
+                   width: MUXwidth,
+                   height: MUXheight })
+                   
+               let text = new fabric.Text(MUXname , {
+                     left: 0,
+                     top:0,
+                     fontSize: 50,
+                  });
+                  
+               let MyBox =  CreateGroup([box, text],200, 0)
+               let FinalVizObject = [...inputLines, ...selectLine, outputLine , MyBox]
+               return {objects : FinalVizObject }
+            }
+   //...
+
+   // Assert these to end simulation (before Makerchip cycle limit).
+   *passed = *cyc_cnt > 40;
+   *failed = 1'b0;
+\SV
+   endmodule

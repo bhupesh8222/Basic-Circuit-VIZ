@@ -1,0 +1,9 @@
+1. Debugging in makerchip 
+2. How to write TL Verilog code for MUX
+3. Identation error in makerchip 
+crt +f
+inside func ther's problem in signal referencing
+http://manoj.makerchip.com/sandbox/0NkfNhR4Y/0k5hOjn#
+4. It is very hard to find the syntax error
+
+picorv
