@@ -1,0 +1,67 @@
+\m4_TLV_version 1d: tl-x.org
+\SV
+
+   // =========================================
+   // Welcome!  Try the tutorials via the menu.
+   // =========================================
+
+   // Default Makerchip TL-Verilog Code Template
+   
+   // Macro providing required top-level module definition, random
+   // stimulus support, and Verilator config.
+   m4_makerchip_module   // (Expanded in Nav-TLV pane.)
+\TLV
+   $reset = *reset;
+   |pipe
+      @0
+         \viz_alpha
+            renderEach(){
+               debugger
+               function CreateRectangle(Mycolor){
+               return new fabric.Rect({
+                   width: 10,
+                   height: 10,
+                   fill : Mycolor})
+               }
+               
+                 function CreateText (Mytext){
+                  return  new fabric.Text(Mytext , {
+                     textAlign: "left",
+                     fontSize: 10
+                  })
+                 }
+                 
+               function CreateGroup(itemsToGroup, Left, Top){
+                  return new fabric.Group(itemsToGroup, {
+                     left: Left,
+                     top: Top,
+               })}
+               
+               let layers = []
+               let counter, ocounter, Left=0, Top=0, instructions=15
+               let names = ["P", "F", "D", "R", "E", "W"]
+               let Mycolor =["rgb(207, 225, 255)", "rgb(199, 255, 242)", "rgb(243, 222, 255)", "rgb(255, 240, 171)", "rgb(176, 209, 255)", "rgb(197, 154, 237)"]
+               
+               for(ocounter=0; ocounter <=instructions; ocounter =ocounter+1)
+               {
+                 for (counter =0; counter <=5; counter =counter+1)
+                  {
+                    let rect = CreateRectangle(Mycolor[counter])
+                    let data = CreateText(names[counter])
+                    let CombinedObject = CreateGroup([rect, data], Left + ocounter * 10 , Top + ocounter * 10 )
+                    Left = Left + 10
+                    layers.push(CombinedObject)
+                  }
+                  Left =0
+               }
+               debugger
+               return {objects : layers}
+            }
+   //...
+
+   // Assert these to end simulation (before Makerchip cycle limit).
+   *passed = *cyc_cnt > 40;
+   *failed = 1'b0;
+\SV
+   endmodule
+
