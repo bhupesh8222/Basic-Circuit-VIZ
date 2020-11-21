@@ -7,3 +7,5 @@ http://manoj.makerchip.com/sandbox/0NkfNhR4Y/0k5hOjn#
 4. It is very hard to find the syntax error
 
 picorv
+
+What if read in RISCV pipeline?

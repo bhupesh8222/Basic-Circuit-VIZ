@@ -38,11 +38,11 @@
                })}
                
                let layers = []
-               let counter, ocounter, Left=0, Top=0, instructions=15
+               let counter, ocounter, Left=0, Top=0, NoOfInstructions=15
                let names = ["P", "F", "D", "R", "E", "W"]
                let Mycolor =["rgb(207, 225, 255)", "rgb(199, 255, 242)", "rgb(243, 222, 255)", "rgb(255, 240, 171)", "rgb(176, 209, 255)", "rgb(197, 154, 237)"]
                
-               for(ocounter=0; ocounter <=instructions; ocounter =ocounter+1)
+               for(ocounter=0; ocounter <=NoOfInstructions; ocounter =ocounter+1)
                {
                  for (counter =0; counter <=5; counter =counter+1)
                   {
