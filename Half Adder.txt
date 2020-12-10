@@ -14,7 +14,8 @@
    $reset = *reset;
    |pipe
       @0
-         $cin = $in1 + $in2; //half adder
+         $sum = $in1 + $in2; //half adder
+         $carry = $in1 * $in2;
          \viz_alpha
             renderEach(){
                const WIDTH = 200
@@ -44,10 +45,10 @@
                            evented: false,
                         });
                       }
-               let input1 = makeLine([400,50,500,50],'$cin'.asBool() ? "green" : "red" )
-               let input2 = makeLine([400,150,500,150], '$cin'.asBool() ? "green" : "red")
-               let sum = makeLine([100,50,200,50], '$cin'.asBool() ? "green" : "red")
-               let carry = makeLine([100,150,200,150], '$cin'.asBool() ? "green" : "red")
+               let sum = makeLine([400,50,500,50],'$sum'.asBool() ? "green" : "blue" )
+               let carry = makeLine([400,150,500,150], '$carry'.asBool() ? "green" : "blue")
+               let input1 = makeLine([100,50,200,50], '$in1'.asBool() ? "green" : "blue")
+               let input2 = makeLine([100,150,200,150], '$in2'.asBool() ? "green" : "blue")
                let MyBox =  CreateGroup([box, text],200, 0)
               
                return {objects : [MyBox, input1, input2, sum, carry]}
